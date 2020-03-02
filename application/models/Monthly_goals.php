@@ -20,6 +20,7 @@ class Monthly_Goals extends CI_Model
     {
         if (!empty($array['date'])) {
             $this->db->where('monthly_goals.date', $array['date']);
+            $this->db->order_by('monthly_goals.created_at', 'DESC');
         } else {
             return false;
         }

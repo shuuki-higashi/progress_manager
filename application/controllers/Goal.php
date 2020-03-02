@@ -71,4 +71,42 @@ class Goal extends CI_Controller {
             }
         }
     }
+
+    /**
+     * 月目標を取得する（ajax用）
+     * @method record
+     */
+    public function ajax_monthly()
+    {
+        if (!empty($this->input->get())) {
+            $date   = $this->input->get()['date'];
+            $record = $this->monthly_goals->get_monthly_goal(['date' => $date.'-01']);
+
+            if (!empty($record)) {
+                $this->output
+                     ->set_content_type('application/json')
+                     ->set_output(json_encode($record));
+            } 
+            return false;
+        }
+    }
+
+    /**
+     * 年目標を取得する（ajax用）
+     * @method record
+     */
+    public function ajax_yearly()
+    {
+        if (!empty($this->input->get())) {
+            $date   = $this->input->get()['date'];
+            $record = $this->yearly_goals->get_yearly_goal(['date' => $date.'-01-01']);
+
+            if (!empty($record)) {
+                $this->output
+                     ->set_content_type('application/json')
+                     ->set_output(json_encode($record));
+            } 
+            return false;
+        }
+    }
 }

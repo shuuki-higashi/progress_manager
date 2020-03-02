@@ -20,6 +20,7 @@ class Records extends CI_Model
     {
         if (!empty($date)) {
             $this->db->where('records.date', $date);
+            $this->db->order_by('records.created_at', 'DESC');
         } else {
             return false;
         }
@@ -137,7 +138,7 @@ class Records extends CI_Model
         $days = (int)date('t', strtotime($array['date'].'-01'));
         
         for ($i=0;$i<$days;$i++) {
-            $record = $this->get_record($array['date'].'-'.(string)$i);
+            $record = $this->get_record($array['date'].'-'.(string)($i+1));
 
             if ($i == 0) {
                 if($record) {

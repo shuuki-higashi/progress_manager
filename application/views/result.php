@@ -6,103 +6,127 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<meta charset="utf-8">
     <title>出力</title>
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.1.2/css/bulma.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
     <script type="text/javascript" src="monthpicker.js"></script>
 </head>
 <body>
-<a href="top"><button>戻る</button></a>
-<div class="tab_wrap">
-	<div class="tab_area">
-		<label class="tab1_label" for="tab1">月</label>
-		<label class="tab2_label" for="tab2">年</label>
-	</div>
-	<div class="panel_area">
-		<div id="panel1" class="tab_panel <?php if ($formtype != 'yearly') print('active') ?>">
-        <form id="login_form" role="form" method="GET" action="result">
-            <input type="hidden" name="formtype" value="monthly">
-            <div class="form-group">
-                <label>年月</label>
-                <input id="monthPick" placeholder="年月" name="date" type="text" value="<?= $date ?>">
+    <div class="content">
+        <a href="top"><button type="submit" class="button is-rounded">戻る</button></a>
+        <h1 class="subtitle">出力</h1>
+        <div class="tab_wrap">
+            <div class="tab_area tabs is-toggle is-fullwidth">
+                <ul>
+                    <li class="tab1_label <?php if ($formtype != 'yearly') print('is-active') ?>"><a><span>月</span></a></li>
+                    <li class="tab2_label <?php if ($formtype == 'yearly') print('is-active') ?>"><a><span>年</span></a></li>
+                </ul>
             </div>
-            <button type="submit" class="btn">決定</button>
-        </form>
-        <?php if ($record && $formtype == 'monthly'): ?>
-            <img src="./test.png" />
-            <div class="form-group">
-                総客数
-                <input value="<?= $record['total_customers'] ?>" type="text">
+            <div class="panel_area">
+                <div id="panel1" class="tab_panel <?php if ($formtype != 'yearly') print('active') ?>">
+                    <form role="form" method="GET" action="result" autocomplete="off">
+                        <input type="hidden" name="formtype" value="monthly">
+                        <div class="field">
+                            <label class="label">年月</label>
+                            <div class="control">
+                                <input id="monthPick" class="input" type="text" name="date" placeholder="年月" value="<?= $date ?>">
+                            </div>
+                            <?php if ($record && $goal && $formtype == 'monthly'): ?>
+                                <img src="./test.png" />
+                                
+                                <label class="label">総客数</label>
+                                <div class="control">
+                                    <input class="input" type="text" name="total_customers" placeholder="総客数" value="<?= $record['total_customers'] ?>">
+                                </div>
+                                <label class="label">技術売上</label>
+                                <div class="control">
+                                    <input class="input in" type="text" name="tech_sales" placeholder="技術売上" value="<?= $record['tech_sales'] ?>">
+                                </div>
+                                <label class="label">商品売上</label>
+                                <div class="control">
+                                    <input class="input in" type="text" name="goods_sales" placeholder="商品売上" value="<?= $record['goods_sales'] ?>">
+                                </div>
+                                <label class="label">他売上</label>
+                                <div class="control">
+                                    <input class="input in" type="text" name="other_sales" placeholder="他売上" value="<?= $record['other_sales'] ?>">
+                                </div>
+                                <label class="label">総売上</label>
+                                <div class="control">
+                                    <input class="input out" type="text" name="total_sales" placeholder="総売上" value="<?= $record['total_sales'] ?>">
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="subbutton">
+                            <button type="submit" class="button">適用</button>
+                        </div>
+                    </form>  
+                </div>
+                <div id="panel2" class="tab_panel <?php if ($formtype == 'yearly') print('active') ?>">
+                    <form role="form" method="GET" action="result" autocomplete="off">
+                        <input type="hidden" name="formtype" value="yearly">
+                        <div class="field">
+                            <label class="label">年</label>
+                            <div class="control">
+                                <div class="select">
+                                <select id="date" type="text" name="date">
+                                    <option value="">選択してください</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                </select>
+                                </div>
+                            </div>
+                            <?php if ($record && $goal && $formtype == 'yearly'): ?>
+                                <img src="./test.png" />
+                                <label class="label">総客数</label>
+                                <div class="control">
+                                    <input class="input" type="text" name="total_customers" placeholder="総客数" value="<?= $record['total_customers'] ?>">
+                                </div>
+                                <label class="label">技術売上</label>
+                                <div class="control">
+                                    <input class="input in" type="text" name="tech_sales" placeholder="技術売上" value="<?= $record['tech_sales'] ?>">
+                                </div>
+                                <label class="label">商品売上</label>
+                                <div class="control">
+                                    <input class="input in" type="text" name="goods_sales" placeholder="商品売上" value="<?= $record['goods_sales'] ?>">
+                                </div>
+                                <label class="label">他売上</label>
+                                <div class="control">
+                                    <input class="input in" type="text" name="other_sales" placeholder="他売上" value="<?= $record['other_sales'] ?>">
+                                </div>
+                                <label class="label">総売上</label>
+                                <div class="control">
+                                    <input class="input out" type="text" name="total_sales" placeholder="総売上" value="<?= $record['total_sales'] ?>">
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="subbutton">
+                            <button type="submit" class="button">適用</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                技術売上
-                <input value="<?= $record['tech_sales'] ?>" type="text">
-            </div>
-            <div class="form-group">
-                商品売上
-                <input value="<?= $record['goods_sales'] ?>" type="text">
-            </div>
-            <div class="form-group">
-                他売上
-                <input value="<?= $record['other_sales'] ?>" type="text">
-            </div>
-            <div class="form-group">
-                総売上
-                <input value="<?= $record['total_sales'] ?>" type="text">
-            </div>
-        <?php endif; ?>
-		</div>
-		<div id="panel2" class="tab_panel <?php if ($formtype == 'yearly') print('active') ?>">
-            <form id="login_form" role="form" method="GET" action="result">
-                <input type="hidden" name="formtype" value="yearly">
-                <div class="form-group">
-                    <label>年</label>
-                    <input placeholder="年" name="date" type="text" value="<?= $date ?>">
-                </div>
-                <button type="submit" class="btn">決定</button>
-            </form>
-            <?php if ($record && $formtype == 'yearly'): ?>
-                <img src="./test.png" />
-                <div class="form-group">
-                    総客数
-                    <input value="<?= $record['total_customers'] ?>" type="text">
-                </div>
-                <div class="form-group">
-                    技術売上
-                    <input value="<?= $record['tech_sales'] ?>" type="text">
-                </div>
-                <div class="form-group">
-                    商品売上
-                    <input value="<?= $record['goods_sales'] ?>" type="text">
-                </div>
-                <div class="form-group">
-                    他売上
-                    <input value="<?= $record['other_sales'] ?>" type="text">
-                </div>
-                <div class="form-group">
-                    総売上
-                    <input value="<?= $record['total_sales'] ?>" type="text">
-                </div>
-            <?php endif; ?>
-		</div>
-	</div>
-</div>
-
-
-</div>
+        </div>
+    </div>
 </body>
 
 <style>
+    .subtitle{text-align:center}
+
+    .tab2_label{position: relative; top:-2px;}
     .tab_wrap{width:500px; margin:80px auto;}
-    .tab_area{font-size:0; margin:0 10px;}
-    .tab_area label{width:230px; margin:0 5px; display:inline-block; padding:12px 0; color:#999; background:#ddd; text-align:center; font-size:13px; cursor:pointer; transition:ease 0.2s opacity;}
-    .tab_area label:hover{opacity:0.5;}
-    .panel_area{background:#fff;}
-    .tab_panel{width:100%; padding:80px 0; display:none;}
-    .tab_panel p{font-size:14px; letter-spacing:1px; text-align:center;}
-    
-    .tab_area label.active{background:#aaa; color:#000;}
+    .tab_panel{width:100%; padding:40px 0; display:none;}
     .tab_panel.active{display:block;}
+    .panel_area{margin:0 40px 30px; }
+    .subbutton{margin:10px; text-align:center;}
+
+    .mtz-monthpicker{background:#FFF;}
+    .mtz-monthpicker-month{margin:20px; text-align:center;}
+    .mtz-monthpicker-month:hover{background:#1fc8db; color:#FFF;}
+    .ui-widget-header{background:#1fc8db;}
 </style>
 
 <script>
@@ -120,18 +144,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         };
     $("#monthPick").monthpicker(op);
 
+    // tab
     $(".tab1_label").on("click",function(){
         var $th = $(this).index();
-        $(".tab2_label").removeClass("active");
+        $(".tab2_label").removeClass("is-active");
         $(".tab_panel").removeClass("active");
         $(this).addClass("active");
+        $(".tab1_label").addClass("is-active");
         $(".tab_panel").eq($th).addClass("active");
     });
     $(".tab2_label").on("click",function(){
         var $th = $(this).index();
-        $(".tab1_label").removeClass("active");
+        $(".tab1_label").removeClass("is-active");
         $(".tab_panel").removeClass("active");
         $(this).addClass("active");
+        $(".tab2_label").addClass("is-active");
         $(".tab_panel").eq($th).addClass("active");
     });
 });

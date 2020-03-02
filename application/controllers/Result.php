@@ -19,6 +19,7 @@ class Result extends CI_Controller {
         $date       = '';
         $formtype   = '';
         $record     = '';
+        $goal       = '';
         $graph      = new Graph(600, 200);
 
         if (!empty($this->input->get()['date'])) {
@@ -32,15 +33,14 @@ class Result extends CI_Controller {
                 $record_data = $this->records->monthly_total_sales(['date' => $date]);
             } else {   
                 $record      = $this->records->sum_yearly(['date' => $date]);
-                $goal        = $this->yearly_goals->get_yearly_goal(['date' => $date]);
+                $goal        = $this->yearly_goals->get_yearly_goal(['date' => $date.'-01-01']);
                 $goal_data   = $this->yearly_goals->get_plot(['date' => $date.'-01-01']);
                 $record_data = $this->records->yearly_total_sales(['date' => $date]);
             }
             
             // グラフ描画
-            if ($record) {
+            if ($record && $goal) {
                 $graph->setScale('textlin');            // 目盛り
-                $graph->title->set('total_sales');      // タイトル
                 $graph->Add(new BarPlot($record_data)); // 実績
                 $graph->Add(new LinePlot($goal_data));  // 目標
                 $graph->Stroke('./test.png');
@@ -51,6 +51,7 @@ class Result extends CI_Controller {
             'date'      => $date,
             'formtype'  => $formtype,
             'record'    => $record,
+            'goal'      => $goal,
             'graph'     => $graph
         ]);
 	}

@@ -20,6 +20,7 @@ class Yearly_Goals extends CI_Model
     {
         if (!empty($array['date'])) {
             $this->db->where('yearly_goals.date', $array['date']);
+            $this->db->order_by('yearly_goals.created_at', 'DESC');
         } else {
             return false;
         }

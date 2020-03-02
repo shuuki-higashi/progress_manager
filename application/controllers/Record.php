@@ -12,7 +12,7 @@ class Record extends CI_Controller {
 	{
 		$this->load->view('record');
 	}
-
+    
 	/**
      * 実績を新規追加する
      * @method add
@@ -39,6 +39,25 @@ class Record extends CI_Controller {
                     '実績の登録に失敗しました'
                 ]);
             }
+        }
+    }
+
+    /**
+     * 実績を取得する（ajax用）
+     * @method record
+     */
+    public function ajax_record()
+    {
+        if (!empty($this->input->get())) {
+            $date   = $this->input->get()['date'];
+            $record = $this->records->get_record($date);
+
+            if (!empty($record)) {
+                $this->output
+                     ->set_content_type('application/json')
+                     ->set_output(json_encode($record));
+            } 
+            return false;
         }
     }
 }
